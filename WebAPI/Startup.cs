@@ -26,40 +26,31 @@ namespace WebAPI
             services.AddAuthentication().AddOAuth("Oauth", options =>
      {
          // When a user needs to sign in, they will be redirected to the authorize endpoint
-         options.AuthorizationEndpoint ="";
-         
+         options.AuthorizationEndpoint = "";
+
          // scopes when redirecting to the authorization endpoint
          options.Scope.Add("openid");
          options.Scope.Add("profile");
          options.Scope.Add("email");
-        
+
          options.ClientSecret = "";
-        
+
      });
+
+            AzureTableSettings azureTableSettings = new AzureTableSettings(System.Environment.GetEnvironmentVariable("AzureConnectionString"));
+
             services.AddScoped<IUsersRepository<UserEntity>>(factory =>
             {
-                return new UsersRepository<UserEntity>(
-                    new AzureTableSettings(
-                        // storageAccount: Configuration["Table_StorageAccount"],
-                        // storageKey: Configuration["Table_StorageKey"],
-                        connectionString: Configuration["ConnectionString"]
-                        // tableName: Configuration["Table_TableName"]
-                        ));
+                return new UsersRepository<UserEntity>(azureTableSettings);
             });
             services.AddScoped<IPlantsRepository<PlantEntity>>(factory =>
             {
-                return new PlantsRepository<PlantEntity>(
-                    new AzureTableSettings(
-                        connectionString: Configuration["ConnectionString"]
-                        ));
+                return new PlantsRepository<PlantEntity>(azureTableSettings);
             });
-             services.AddScoped<IFindingsRepository<FindingEntity>>(factory =>
-            {
-                return new FindingsRepository<FindingEntity>(
-                    new AzureTableSettings(
-                        connectionString: Configuration["ConnectionString"]
-                        ));
-            });
+            services.AddScoped<IFindingsRepository<FindingEntity>>(factory =>
+           {
+               return new FindingsRepository<FindingEntity>(azureTableSettings);
+           });
 
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IPlantsService, PlantsService>();
