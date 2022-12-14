@@ -1,13 +1,8 @@
 using WebAPI.Services;
 using WebAPI.Domain;
 using WebAPI.Models;
-// using Fiver.Azure.Table.Client.OtherLayers;
 // using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -44,7 +39,7 @@ namespace WebAPI.Controllers
             return Ok(outputModel);
         }
 
-        [HttpGet("{type}", Name = "GetUsersByTpe")]
+        [HttpGet("{type}", Name = "GetUsersByType")]
         public async Task<IActionResult> GetByType(string type)
         {
             UserType userType = (UserType)Enum.Parse(typeof(UserType), type.ToUpper());
@@ -57,16 +52,16 @@ namespace WebAPI.Controllers
             return Ok(outputModel);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] UserInputModel inputModel)
+        [HttpPost(Name = "CreateUser")]
+        public async Task<IActionResult> Create([FromBody] UserCreateInputModel inputCreateModel)
         {
-            if (inputModel == null)
+            if (inputCreateModel == null)
                 return BadRequest();
 
             // if (!ModelState.IsValid)
             //     return new UnprocessableObjectResult(ModelState);
 
-            var model = ToDomainModel(inputModel);
+            var model = ToDomainModel(inputCreateModel);
             await usersService.AddUser(model);
 
             var outputModel = ToOutputModel(model);
@@ -75,20 +70,20 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
-        [HttpPut("{type}/{userId}")]
+        [HttpPut("{type}/{userId}", Name = "UpdateUser")]
         public async Task<IActionResult> Update(string type, string userId,
             [FromBody] UserInputModel inputModel)
         {
             if (inputModel == null ||
-                type != inputModel.Type ||
-                userId != inputModel.UserId)
-                return BadRequest();
+                !type.ToUpper().Equals(inputModel.Type.ToUpper()) ||
+                !userId.ToUpper().Equals(inputModel.UserId.ToUpper()))
+                return BadRequest("Types and/or UserIds are not the same!");
             try
             {
                 UserType userType = (UserType)Enum.Parse(typeof(UserType), type.ToUpper());
 
                 if (!await usersService.UserExists(userType.ToString(), userId))
-                    return NotFound();
+                    return NotFound("User doesn't exist!");
 
                 // if (!ModelState.IsValid)
                 //     return new UnprocessableObjectResult(ModelState);
@@ -97,23 +92,14 @@ namespace WebAPI.Controllers
                 await usersService.UpdateUser(model);
 
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 return UnprocessableEntity();
             }
-            // if (!await usersService.UserExists(userType, userId))
-            //     return NotFound();
-
-            // if (!ModelState.IsValid)
-            //     return new UnprocessableObjectResult(ModelState);
-
-            // var model = ToDomainModel(inputModel);
-            // await usersService.UpdateUser(model);
-
             return NoContent();
         }
 
-        [HttpDelete("{type}/{userId}")]
+        [HttpDelete("{type}/{userId}", Name = "DeleteUser")]
         public async Task<IActionResult> Delete(string type, string userId)
         {
             UserType userType = (UserType)Enum.Parse(typeof(UserType), type.ToUpper());
@@ -136,6 +122,8 @@ namespace WebAPI.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
+                Latitude = model.Latitude,
+                Longitude = model.Longitude,
                 RegistrationDate = model.RegistrationDate,
                 Timestamp = model.Timestamp
             };
@@ -153,12 +141,23 @@ namespace WebAPI.Controllers
             {
                 PartitionKey = ((UserType)Enum.Parse(typeof(UserType), inputModel.Type.ToUpper())).ToString(),
                 RowKey = inputModel.UserId,
-                Type = ((UserType)Enum.Parse(typeof(UserType), inputModel.Type.ToUpper())).ToString(),
-                UserId = inputModel.UserId,
                 FirstName = inputModel.FirstName,
                 LastName = inputModel.LastName,
-                Email = inputModel.Email
-                // RegistrationDate = DateTime.Now
+                Email = inputModel.Email,
+                Latitude = inputModel.Latitude ,//!= null ? (double)inputModel.Latitude : 0.0f,
+                Longitude = inputModel.Longitude //!= null ? (double)inputModel.Longitude : 0.0f
+            };
+        }
+        private UserEntity ToDomainModel(UserCreateInputModel inputCreateModel)
+        {
+            return new UserEntity
+            {
+                PartitionKey = ((UserType)Enum.Parse(typeof(UserType), inputCreateModel.Type.ToUpper())).ToString(),
+                RowKey = inputCreateModel.UserId,
+                FirstName = inputCreateModel.FirstName,
+                LastName = inputCreateModel.LastName,
+                Email = inputCreateModel.Email,
+                RegistrationDate = DateTime.Now
             };
         }
 
@@ -171,9 +170,24 @@ namespace WebAPI.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
+                Latitude = model.Latitude,
+                Longitude = model.Longitude
+            };
+        }
+
+        private UserCreateInputModel ToCreateInputModel(UserEntity model)
+        {
+            return new UserCreateInputModel
+            {
+                Type = model.PartitionKey,
+                UserId = model.RowKey,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
             };
         }
 
         #endregion
+
     }
 }

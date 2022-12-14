@@ -27,3 +27,15 @@ E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\obj\Debug\net6.0\refint\WebAPI.dll
 E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\obj\Debug\net6.0\WebAPI.pdb
 E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\obj\Debug\net6.0\WebAPI.genruntimeconfig.cache
 E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\obj\Debug\net6.0\ref\WebAPI.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Google.Apis.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Google.Apis.Auth.PlatformServices.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Google.Apis.Auth.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Google.Apis.Auth.AspNetCore3.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Google.Apis.Core.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll

@@ -39,8 +39,14 @@ namespace WebAPI.Services
             if (user != null)
             {
                 item.RegistrationDate = user.RegistrationDate;
-
-                await this.repository.Update(item);
+                foreach( var property in item.GetType().GetProperties())
+                {
+                    if(property.GetValue(item)!=null && !property.Name.Equals("RegistrationDate"))
+                    {
+                        property.SetValue(user,property.GetValue(item));
+                    }
+                }
+                await this.repository.Update(user);
             }
         }
 
