@@ -2,6 +2,8 @@ using WebAPI.Services;
 using WebAPI.Domain;
 using WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using Azure.Messaging.ServiceBus;
 
 namespace WebAPI.Controllers
 {
@@ -54,12 +56,27 @@ namespace WebAPI.Controllers
             if (inputCreateModel == null)
                 return BadRequest();
 
+            /* Start of ServiceBus-Functions Section */
+            
+            var client = new ServiceBusClient("Endpoint=sb://ambroziaservicebus.servicebus.windows.net/;SharedAccessKeyName=serverPolicy;SharedAccessKey=eyxMa8o9RuILtjmgaBGjI+G5CRgvDd9efF3JQ9JErpA=;EntityPath=ambrosiatopic");
+            var sender = client.CreateSender("ambrosiatopic");
+            var body2 = JsonSerializer.Serialize(inputCreateModel);
+            var servicebus_message = new ServiceBusMessage(body2);
+
+            await sender.SendMessageAsync(servicebus_message);
+
+            /* Esd of ServiceBus-Functions Section */
+
             var model = ToDomainModel(inputCreateModel);
             await findingsService.AddFinding(model);
 
             var outputModel = ToOutputModel(model);
+
+            
+
             return Ok();
         }
+
 
         [HttpPut("{plantId}/{FindingId}", Name = "UpdateFinding")]
         public async Task<IActionResult> Update(string plantId, string findingId,
