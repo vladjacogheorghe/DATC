@@ -57,7 +57,7 @@ namespace WebAPI.Controllers
                 return BadRequest();
 
             /* Start of ServiceBus-Functions Section */
-            
+             
             var client = new ServiceBusClient("Endpoint=sb://ambroziaservicebus.servicebus.windows.net/;SharedAccessKeyName=serverPolicy;SharedAccessKey=eyxMa8o9RuILtjmgaBGjI+G5CRgvDd9efF3JQ9JErpA=;EntityPath=ambrosiatopic");
             var sender = client.CreateSender("ambrosiatopic");
             var body2 = JsonSerializer.Serialize(inputCreateModel);
@@ -71,8 +71,6 @@ namespace WebAPI.Controllers
             await findingsService.AddFinding(model);
 
             var outputModel = ToOutputModel(model);
-
-            
 
             return Ok();
         }
