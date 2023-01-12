@@ -8,7 +8,7 @@ using Azure.Messaging.ServiceBus;
 
 namespace WebAPI.Controllers
 {
-    [EnableCors(origins: "http://127.0.0.1:5173/", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [ApiController]
     [Route("[controller]")]
     public class FindingsController : ControllerBase
@@ -53,13 +53,13 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost(Name = "CreateFinding")]
-        public async Task<IActionResult> Create([FromBody] FindingInputModel inputCreateModel)
+        public async Task<IActionResult> Create([FromBody] FindingCreateInputModel inputCreateModel)
         {
             if (inputCreateModel == null)
                 return BadRequest();
 
             /* Start of ServiceBus-Functions Section */
-             
+
             var client = new ServiceBusClient("Endpoint=sb://ambroziaservicebus.servicebus.windows.net/;SharedAccessKeyName=serverPolicy;SharedAccessKey=eyxMa8o9RuILtjmgaBGjI+G5CRgvDd9efF3JQ9JErpA=;EntityPath=ambrosiatopic");
             var sender = client.CreateSender("ambrosiatopic");
             var body2 = JsonSerializer.Serialize(inputCreateModel);
@@ -153,17 +153,17 @@ namespace WebAPI.Controllers
                 Longitude = inputModel.Longitude
             };
         }
-        // private FindingEntity ToDomainModel(FindingCreateInputModel inputCreateModel)
-        // {
-        //     return new FindingEntity
-        //     {
-        //         PartitionKey = inputCreateModel.PlantId,
-        //         RowKey = inputCreateModel.FindingId,
-        //         Radius = inputCreateModel.Radius,
-        //         Latitude = inputCreateModel.Latitude,
-        //         Longitude = inputCreateModel.Longitude
-        //     };
-        // }
+        private FindingEntity ToDomainModel(FindingCreateInputModel inputCreateModel)
+        {
+            return new FindingEntity
+            (
+                plantId : inputCreateModel.PlantId,
+                userId : inputCreateModel.UserId,
+                radius : inputCreateModel.Radius,
+                latitude : inputCreateModel.Latitude,
+                longitude : inputCreateModel.Longitude
+            );
+        }
 
         private FindingInputModel ToInputModel(FindingEntity model)
         {
@@ -178,17 +178,17 @@ namespace WebAPI.Controllers
             };
         }
 
-        // private FindingCreateInputModel ToCreateInputModel(FindingEntity model)
-        // {
-        //     return new FindingCreateInputModel
-        //     {
-        //         PlantId = model.PartitionKey,
-        //         FindingId = model.RowKey,
-        //         Radius = model.Radius,
-        //         Latitude = model.Latitude,
-        //         Longitude = model.Longitude
-        //     };
-        // }
+        private FindingCreateInputModel ToCreateInputModel(FindingEntity model)
+        {
+            return new FindingCreateInputModel
+            {
+                PlantId = model.PartitionKey,
+                UserId = model.UserId,
+                Radius = model.Radius,
+                Latitude = model.Latitude,
+                Longitude = model.Longitude
+            };
+        }
 
         #endregion 
     }

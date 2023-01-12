@@ -1,7 +1,7 @@
 export async function getFindings() {
     let findings;
     try {
-        const response = await fetch('https://localhost:7087/findings',
+        const response = await fetch('https://localhost:7087/findings',//'https://ambrosiaalert.azurewebsites.net/findings', //
             {
                 method: 'get',
                 headers: {
@@ -9,7 +9,6 @@ export async function getFindings() {
                 }
             })
             findings = response.json();
-            // console.log("get findings:", findings);
     } catch (err) {
         console.log("Error: could not fetch Findings!");
     }

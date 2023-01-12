@@ -27,19 +27,19 @@ namespace WebAPI
             {
                 builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
             }));
-            services.AddAuthentication().AddOAuth("Oauth", options =>
-            {
-                // When a user needs to sign in, they will be redirected to the authorize endpoint
-                options.AuthorizationEndpoint = "";
+            // services.AddAuthentication().AddOAuth("Oauth", options =>
+            // {
+            //     // When a user needs to sign in, they will be redirected to the authorize endpoint
+            //     options.AuthorizationEndpoint = "";
 
-                // scopes when redirecting to the authorization endpoint
-                options.Scope.Add("openid");
-                options.Scope.Add("profile");
-                options.Scope.Add("email");
+            //     // scopes when redirecting to the authorization endpoint
+            //     options.Scope.Add("openid");
+            //     options.Scope.Add("profile");
+            //     options.Scope.Add("email");
 
-                options.ClientSecret = "";
+            //     options.ClientSecret = "";
 
-            });
+            // });
 
             AzureTableSettings azureTableSettings = new AzureTableSettings(System.Environment.GetEnvironmentVariable("ambrosiaalertAzureConnectionString"));
 

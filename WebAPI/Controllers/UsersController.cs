@@ -3,9 +3,11 @@ using WebAPI.Domain;
 using WebAPI.Models;
 // using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.Http.Cors;
 
 namespace WebAPI.Controllers
-{
+{//http://127.0.0.1:5173/,http://127.0.0.1:4173/
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [ApiController]
     [Route("[controller]")]
     public class UsersController : ControllerBase

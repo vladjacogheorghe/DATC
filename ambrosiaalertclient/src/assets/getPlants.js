@@ -1,17 +1,17 @@
 export async function getPlants() {
     let plants;
     try {
-        const response = await fetch('https://localhost:7087/plants',
+        //https://ambrosiaalert.azurewebsites.net/
+        const response = await fetch('https://localhost:7087/plants',//'https://ambrosiaalert.azurewebsites.net/plants', //
             {
                 method: 'get',
                 headers: {
                     'content-type': "application/json; charset=utf-8",
                 }
             })
-            findings = response.json();
-            // console.log("get findings:", findings);
+            plants = response.json();
     } catch (err) {
-        console.log("Error: could not fetch Findings!");
+        console.log("Error: could not fetch Plants!"+err);
     }
 
     return plants;

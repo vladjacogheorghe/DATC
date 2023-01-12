@@ -3,8 +3,11 @@ using WebAPI.Services;
 using WebAPI.Domain;
 using WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.Http.Cors;
+
 namespace WebAPI.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [ApiController]
     [Route("[controller]")]
     public class PlantsController : ControllerBase

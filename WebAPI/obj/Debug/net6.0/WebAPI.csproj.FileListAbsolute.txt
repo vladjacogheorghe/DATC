@@ -94,3 +94,9 @@ C:\Users\Denis\Documents\GitHub\DATC\WebAPI\obj\Debug\net6.0\WebAPI.csproj.CopyC
 C:\Users\Denis\Documents\GitHub\DATC\WebAPI\obj\Debug\net6.0\WebAPI.genruntimeconfig.cache
 C:\Users\Denis\Documents\GitHub\DATC\WebAPI\obj\Debug\net6.0\ref\WebAPI.dll
 >>>>>>> 219a5c17b8e1f6d0b461ae655f5833dea8cee911
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Azure.Core.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Azure.Core.Amqp.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Azure.Messaging.ServiceBus.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Microsoft.Azure.Amqp.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\System.Memory.Data.dll

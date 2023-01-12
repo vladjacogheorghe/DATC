@@ -2,14 +2,18 @@
 import ambrosiaImgPath from '@/assets/ambrosia.svg';
 import atmImgPath from '@/assets/atm.svg';
 import { getFindings } from '@/assets/getFindings.js';
+import { postFinding } from '@/assets/postFinding.js';
 import { ref, watch, onMounted, computed } from "vue";
 import { GoogleMap, Marker } from "vue3-google-map";
 
-const props=defineProps({
-  isMapClickable: false
+const props = defineProps({
+  isMapClickable: Boolean,
+  plantIdOfFinding: String
 });
 
-const reactiveIsMapClickable=ref(props.isMapClickable);
+const reactiveIsMapClickable = ref(props.isMapClickable);
+
+const reactivePlantIdOfFinding = ref(props.plantIdOfFinding);
 
 const userCenter = ref(
   { lat: 45.749578, lng: 21.243070 },
@@ -85,21 +89,22 @@ async function refreshFindings() {
   findings.value = await getFindings();
 };
 
-function handleClickMap(event) {
-  if (reactiveIsMapClickable.value) {
+async function handleClickMap(event) {
+  if (props.isMapClickable) {
     console.log("click lat:", event.latLng.lat());
     console.log("click lat:", event.latLng.lng());
+    const findingToPost = {
+      PlantId: props.plantIdOfFinding,
+      UserId: "U0002",
+      Radius: 0.01,
+      Latitude: event.latLng.lat(),
+      Longitude: event.latLng.lng()
+    };
+    let response = await postFinding(findingToPost);
+    if(response){
+      await refreshFindings();
+    }
   }
-
-
-}
-const findingToPost = {
-  PlantId: "",
-  FindingId: "",
-  UserId: "",
-  Radius: 0.01,
-  Latitude: 0,
-  Longitude: 0
 };
 
 </script>

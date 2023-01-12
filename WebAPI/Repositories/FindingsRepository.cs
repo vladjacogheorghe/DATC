@@ -97,7 +97,7 @@ namespace WebAPI.Repositories
         {
             //Table
             CloudTable table = await GetTableAsync();
-
+            Console.Out.WriteLine(item.ToString());
             //Operation
             TableOperation operation = TableOperation.Insert(item);
 
