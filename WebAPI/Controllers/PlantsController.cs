@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers
 {
     [ApiController]
-    [Route("plants")]
+    [Route("[controller]")]
     public class PlantsController : ControllerBase
     {
         private readonly IPlantsService plantsService;

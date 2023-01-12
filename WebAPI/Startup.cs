@@ -23,21 +23,25 @@ namespace WebAPI
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+            services.AddCors(p => p.AddPolicy("corsapp", builder =>
+            {
+                builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+            }));
             services.AddAuthentication().AddOAuth("Oauth", options =>
-     {
-         // When a user needs to sign in, they will be redirected to the authorize endpoint
-         options.AuthorizationEndpoint = "";
+            {
+                // When a user needs to sign in, they will be redirected to the authorize endpoint
+                options.AuthorizationEndpoint = "";
 
-         // scopes when redirecting to the authorization endpoint
-         options.Scope.Add("openid");
-         options.Scope.Add("profile");
-         options.Scope.Add("email");
+                // scopes when redirecting to the authorization endpoint
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
+                options.Scope.Add("email");
 
-         options.ClientSecret = "";
+                options.ClientSecret = "";
 
-     });
+            });
 
-            AzureTableSettings azureTableSettings = new AzureTableSettings(System.Environment.GetEnvironmentVariable("AzureConnectionString"));
+            AzureTableSettings azureTableSettings = new AzureTableSettings(System.Environment.GetEnvironmentVariable("ambrosiaalertAzureConnectionString"));
 
             services.AddScoped<IUsersRepository<UserEntity>>(factory =>
             {
@@ -63,6 +67,7 @@ namespace WebAPI
            Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
         {
             app.UseDeveloperExceptionPage();
+            
             // app.UseMvcWithDefaultRoute();
             // if (env.IsDevelopment())
             {
@@ -71,7 +76,7 @@ namespace WebAPI
             }
             app.UseHttpsRedirection();
             app.UseRouting();
-            // app.UseCors();
+            app.UseCors("corsapp");
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
@@ -79,7 +84,7 @@ namespace WebAPI
             });
 
 
-            // app.MapControllers();
+            //app.MapControllers();
 
             // app.Run();
 

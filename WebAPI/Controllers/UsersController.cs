@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers
 {
     [ApiController]
-    [Route("users")]
+    [Route("[controller]")]
     public class UsersController : ControllerBase
     {
         private readonly IUsersService usersService;

@@ -39,3 +39,8 @@ E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Microsoft.IdentityMode
 E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\System.Web.Cors.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\System.Net.Http.Formatting.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\System.Web.Http.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\System.Web.Http.Cors.dll
+E:\Facultate\IS 4\Sem 1 DATC\DATC\WebAPI\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll

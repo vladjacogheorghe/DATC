@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { RouterLink, RouterView } from "vue-router";
+import { getPlants } from '../assets/getPlants.js';
 import Navbar from '../components/Navbar.vue';
 import Map from '../components/Map.vue';
 
@@ -8,33 +9,54 @@ defineProps({
     msg: String,
 })
 
-const count = ref(0)
+let initialPlants = await getPlants();
+
+const plantId=ref("");
+
+const isMapClickable = ref(false);
+
+function toggleIsMapClickable() {
+    if (isMapClickable.value) {
+        isMapClickable.value = false;
+        closeNav();
+    }
+    else {
+        isMapClickable.value = true;
+        console.log("turnIsMapClickableOn", isMapClickable.value);
+        openNav();
+    }
+
+}
+function openNav() {
+    document.getElementById("postFindingSidebar").style.width = "250px";
+}
+function closeNav() {
+    document.getElementById("postFindingSidebar").style.width = "0";
+} 
 </script>
 
 <template>
-    <Navbar/>
-    <Map />
-    <h1>{{ msg }}</h1>
+    <Navbar />
+    <div class="view pt-5" id="view">
 
-    <div class="card">
-        <button type="button" @click="count++">count is {{ count }}</button>
-        <p>
-            Edit
-            <code>components/HelloWorld.vue</code> to test HMR
-        </p>
+        <div id="postFindingSidebar" class="sidebar">
+            <label class="container">Select a plant:{{ plantId }}
+            </label>
+            <input type="radio" v-for="plant in initialPlants" v-model="plantId" :value="plant.PlantId">{{ plant.Name }}
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Clients</a>
+            <a href="#">Contact</a>
+        </div>
+        <div class="pageContent">
+            <button class="btn postFindingSidebar" @click="toggleIsMapClickable">Report a finding</button>
+
+            <Map :isMapClickable=isMapClickable></Map>
+
+        </div>
     </div>
 
-    <p>
-        Check out
-        <a href="https://vuejs.org/guide/quick-start.html#local" target="_blank">create-vue</a>, the official Vue + Vite
-        starter
-    </p>
-    <p>
-        Install
-        <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
-        in your IDE for a better DX
-    </p>
-    <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
 </template>
 
 <style scoped>

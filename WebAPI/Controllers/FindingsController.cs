@@ -1,3 +1,4 @@
+using System.Web.Http.Cors;
 using WebAPI.Services;
 using WebAPI.Domain;
 using WebAPI.Models;
@@ -5,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
+    [EnableCors(origins: "http://127.0.0.1:5173/", headers: "*", methods: "*")]
     [ApiController]
-    [Route("findings")]
+    [Route("[controller]")]
     public class FindingsController : ControllerBase
     {
         private readonly IFindingsService findingsService;
@@ -58,7 +60,7 @@ namespace WebAPI.Controllers
             await findingsService.AddFinding(model);
 
             var outputModel = ToOutputModel(model);
-            return Ok();
+            return Ok(outputModel);
         }
 
         [HttpPut("{plantId}/{FindingId}", Name = "UpdateFinding")]
@@ -81,6 +83,8 @@ namespace WebAPI.Controllers
                 var model = ToDomainModel(inputModel);
                 await findingsService.UpdateFinding(model);
 
+                var outputModel = ToOutputModel(model);
+                return Ok(outputModel);
             }
             catch (ArgumentException)
             {
@@ -108,6 +112,7 @@ namespace WebAPI.Controllers
             {
                 PlantId = model.PartitionKey,
                 FindingId = model.RowKey,
+                UserId = model.UserId,
                 Radius = model.Radius,
                 Latitude = model.Latitude,
                 Longitude = model.Longitude,
@@ -127,6 +132,7 @@ namespace WebAPI.Controllers
             {
                 PartitionKey = inputModel.PlantId,
                 RowKey = inputModel.FindingId,
+                UserId = inputModel.UserId,
                 Radius = inputModel.Radius,
                 Latitude = inputModel.Latitude,
                 Longitude = inputModel.Longitude
@@ -150,6 +156,7 @@ namespace WebAPI.Controllers
             {
                 PlantId = model.PartitionKey,
                 FindingId = model.RowKey,
+                UserId = model.UserId,
                 Radius = model.Radius,
                 Latitude = model.Latitude,
                 Longitude = model.Longitude

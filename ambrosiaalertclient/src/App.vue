@@ -15,7 +15,7 @@ import HelloWorld from './components/HelloWorld.vue'
   <HelloWorld msg="Vite + Vue" /> -->
   <div>
     <Suspense>
-      <RouterView />
+      <RouterView/>
     </Suspense>
   </div>
 </template>
